@@ -1,6 +1,7 @@
 # Flexslider for themes and galleries
 
 Options to add Flexslider to WordPress site, change global slider settings, enable slider for galleries
+h/t [Flexslider for Native Gallery plugin by sarankumar](https://github.com/projoomexperts/Flexslider-Carousel-For-Wordpress-Native-Gallery/blob/master/fsng-index.php)
 
 ### Flexslider Settings
 Choose what functionality to enable
