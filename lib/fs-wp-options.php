@@ -5,12 +5,12 @@
  */
 function fs_wp_settings_init() {
     // register a new setting for "fs_wp" page
-    register_setting( 
+    register_setting(
         'fs_wp',                                // Option Group
         'fs_wp_options',                        // Option Name
         'fs_wp_sanitize_inputs'                 // Sanitize callback
     );
-     
+
     // Flexslider Settings section
     add_settings_section(
         'fs_wp_section_choose_features',        // ID
@@ -126,29 +126,57 @@ function fs_wp_settings_init() {
             'fs_wp_custom_data' => 'custom',
         ]
     );
+
+    add_settings_field(
+        'fs_wp_field_control_nav',
+        // use $args' label_for to populate the id inside the callback
+        __( 'Show Pagination Controls', 'fs_wp' ),
+        'fs_wp_field_control_nav_cb',
+        'fs_wp',
+        'fs_wp_section_flexslider_options',
+        [
+            'label_for' => 'fs_wp_field_control_nav',
+            'class' => 'fs_wp_row',
+            'fs_wp_custom_data' => 'custom',
+        ]
+    );
+
+    add_settings_field(
+        'fs_wp_field_direction_nav',
+        // use $args' label_for to populate the id inside the callback
+        __( 'Show Next/Previous Controls', 'fs_wp' ),
+        'fs_wp_field_direction_nav_cb',
+        'fs_wp',
+        'fs_wp_section_flexslider_options',
+        [
+            'label_for' => 'fs_wp_field_direction_nav',
+            'class' => 'fs_wp_row',
+            'fs_wp_custom_data' => 'custom',
+        ]
+    );
 }
 add_action( 'admin_init', 'fs_wp_settings_init' );
- 
+
 /**
  * custom option and settings:
  * callback functions
  */
- 
+
 // sanitization function
 // see https://tommcfarlin.com/sanitizing-arrays-the-wordpress-settings-api/
 
 function fs_wp_sanitize_inputs( $input ) {
-    
+
     // Initialize the new array that will hold the sanitize values
     $new_input = array();
     // Loop through the input and sanitize each of the values
     foreach ( $input as $key => $val ) {
-        
+
         $new_input[ $key ] = ( isset( $input[ $key ] ) ) ? sanitize_text_field( $val ) : '';
     }
     return $new_input;
 }
- 
+
 // section callbacks can accept an $args parameter, which is an array.
 // $args have the following keys defined: title, id, callback.
 // the values are defined at the add_settings_section() function.
@@ -159,7 +187,7 @@ function fs_wp_section_choose_features_cb( $args ) { ?>
  function fs_wp_section_flexslider_options_cb( $args ) { ?>
  <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Common settings for all flexsliders used on your site, if you are using Enqueue Flexslider Script above', 'fs_wp' ); ?></p>
  <?php }
- 
+
 // field callbacks can accept an $args parameter, which is an array.
 // $args is defined at the add_settings_field() function.
 // wordpress has magic interaction with the following keys: label_for, class.
@@ -282,10 +310,47 @@ function fs_wp_field_animation_speed_cb( $args ) {
     <input type="number" value="<?php echo $options['fs_wp_field_animation_speed'] ? esc_attr( $options['fs_wp_field_animation_speed'] ) : 5000; ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" data-custom="<?php echo esc_attr( $args['fs_wp_custom_data'] ); ?>" name="fs_wp_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
     </input>
     <p class="description">
-    <?php esc_html_e( 'Input the speed you want the slider pause between slides, in milliseconds, if your slider is set to Autoplay. Default: 3000.', 'fs_wp' ); ?>
+    <?php esc_html_e( 'Input the speed you want the slider pause between slides, in milliseconds, if your slider is set to Autoplay. Default: 5000.', 'fs_wp' ); ?>
     </p>
 <?php }
- 
+
+function fs_wp_field_control_nav_cb( $args ) {
+    // get the value of the setting we've registered with register_setting()
+    $options = get_option( 'fs_wp_options' );
+    // output the field
+    ?>
+    <select id="<?php echo esc_attr( $args['label_for'] ); ?>" data-custom="<?php echo esc_attr( $args['fs_wp_custom_data'] ); ?>" name="fs_wp_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
+        <option value="true" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'true', false ) ) : ( '' ); ?>>
+        <?php esc_html_e( 'Yes', 'fs_wp' ); ?>
+        </option>
+        <option value="false" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'false', false ) ) : ( '' ); ?>>
+        <?php esc_html_e( 'No', 'fs_wp' ); ?>
+        </option>
+    </select>
+    <p class="description">
+    <?php esc_html_e( 'Select whether you want to show pagination navigation for the slider. Default: Yes.', 'fs_wp' ); ?>
+    </p>
+<?php }
+
+function fs_wp_field_direction_nav_cb( $args ) {
+    // get the value of the setting we've registered with register_setting()
+    $options = get_option( 'fs_wp_options' );
+    // output the field
+    ?>
+    <select id="<?php echo esc_attr( $args['label_for'] ); ?>" data-custom="<?php echo esc_attr( $args['fs_wp_custom_data'] ); ?>" name="fs_wp_options[<?php echo esc_attr( $args['label_for'] ); ?>]">
+        <option value="true" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'true', false ) ) : ( '' ); ?>>
+        <?php esc_html_e( 'Yes', 'fs_wp' ); ?>
+        </option>
+        <option value="false" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'false', false ) ) : ( '' ); ?>>
+        <?php esc_html_e( 'No', 'fs_wp' ); ?>
+        </option>
+    </select>
+    <p class="description">
+    <?php esc_html_e( 'Select whether you want to show previous/next controls for the slider. Default: Yes.', 'fs_wp' ); ?>
+    </p>
+<?php }
+
+
 /**
  * Add to Settings Menu
  */
@@ -301,7 +366,7 @@ function fs_wp_options_page() {
     );
 }
 add_action( 'admin_menu', 'fs_wp_options_page' );
- 
+
 /**
  * Output HTML on Settings page
  */
@@ -310,16 +375,16 @@ function fs_wp_options_page_html() {
      if ( ! current_user_can( 'manage_options' ) ) {
         return;
      }
-     
+
      // add error/update messages
-     
+
      // check if the user have submitted the settings
      // wordpress will add the "settings-updated" $_GET parameter to the url
      // if ( isset( $_GET['settings-updated'] ) ) {
      // // add settings saved message with the class of "updated"
      //    add_settings_error( 'fs_wp_messages', 'fs_wp_message', __( 'Settings Saved', 'fs_wp' ), 'updated' );
      // }
-     
+
      // show error/update messages
      settings_errors( 'fs_wp_messages' ); ?>
 

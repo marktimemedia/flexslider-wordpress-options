@@ -99,7 +99,7 @@ html[xmlns] .slides {display: block;}
 
 *********************************/
 
-.flexslider { 
+.flexslider {
 
 			 margin: 0 0 40px;
 
@@ -138,7 +138,7 @@ html[xmlns] .slides {display: block;}
 .carousel li { margin-right: 5px; }
 
 .flex-caption {
-	
+
     bottom: 0;
     background: rgba(0,0,0,.2);
     color: white;
@@ -154,39 +154,39 @@ html[xmlns] .slides {display: block;}
 
 .flex-direction-nav {height: 0; }
 
-.flex-direction-nav a  { display: block; width: 40px; 
+.flex-direction-nav a  { display: block; width: 40px;
 
-						height: 40px; 
+						height: 40px;
 
-						margin: -20px 0 0; 
+						margin: -20px 0 0;
 
-						position: absolute; 
+						position: absolute;
 
-						top: 50%; 
+						top: 60%;
 
-						z-index: 10; 
+						z-index: 10;
 
-						overflow: hidden; 
+						overflow: hidden;
 
-						opacity: 0; 
+						opacity: 0;
 
-						cursor: pointer; 
+						cursor: pointer;
 
-						color: rgba(0,0,0,0.8); 
+						color: rgba(0,0,0,0.8);
 
-						-webkit-transition: all .3s ease; 
+						-webkit-transition: all .3s ease;
 
-						-moz-transition: all .3s ease; 
+						-moz-transition: all .3s ease;
 
 						transition: all .3s ease; }
 
-.flex-direction-nav .flex-prev { left: -50px; }
+.flex-direction-nav .flex-prev { opacity: 0.5; left: 60px; }
 
-.flex-direction-nav .flex-next { right: -50px; text-align: right; }
+.flex-direction-nav .flex-next { opacity: 0.5; right: 60px; text-align: right; }
 
-.flexslider:hover .flex-prev { opacity: 0.7; left: 10px; }
+.flexslider:hover .flex-prev { opacity: 0.9; }
 
-.flexslider:hover .flex-next { opacity: 0.7; right: 10px; }
+.flexslider:hover .flex-next { opacity: 0.9; }
 
 .flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
 
